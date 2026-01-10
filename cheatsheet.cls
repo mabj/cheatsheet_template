@@ -2,7 +2,7 @@
 % Definition
 %------------------------------------------------------------------------------
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{cheatsheet}[Cheatsheet]
+\ProvidesClass{cheatsheet}[2026/01/09 v1.0 LaTeX Cheatsheet Template]
 
 % Inherit options of extarticle
 \DeclareOption*{
@@ -21,7 +21,6 @@
 % Graphic
 \RequirePackage{tikz}
 % Fonts
-\RequirePackage{pslatex}
 \RequirePackage[sfdefault]{roboto}
 % Multiple columns
 \RequirePackage{multicol}
@@ -35,18 +34,55 @@
 %------------------------------------------------------------------------------
 % Colors
 %------------------------------------------------------------------------------
-\definecolor{innoinnored}{RGB}{54,57,63}
-\definecolor{innoinnobggray}{RGB}{250,252,253}
-\definecolor{innoinnofggray}{RGB}{214,213,218}
+% Primary colors - can be redefined by users
+\definecolor{primary}{RGB}{54,57,63}
+\definecolor{background}{RGB}{250,252,253}
+\definecolor{border}{RGB}{214,213,218}
+
+% Legacy color names for backward compatibility
+\colorlet{innoinnored}{primary}
+\colorlet{innoinnobggray}{background}
+\colorlet{innoinnofggray}{border}
 
 %------------------------------------------------------------------------------
 % Commands
 %------------------------------------------------------------------------------
 \newcommand*{\cheatsheettitle}[1]{\def\@cheatsheettitle{#1}}
+
+% Main section command
 \newcommand*{\cheatsheetsection}[1]{
-  \vspace{3mm}
-  \textbf{\Large\color{innoinnored} .::[ #1}
+  \noindent
+  \begin{tikzpicture}
+    \node[
+      fill=primary,
+      text=white,
+      font=\large\bfseries,
+      inner xsep=3mm,
+      inner ysep=2mm,
+      text width=\columnwidth-6mm,
+      anchor=north west
+    ] {#1};
+  \end{tikzpicture}
+  \vspace{-4mm}
 }
+
+% Subsection command
+\newcommand*{\cheatsheetsubsection}[1]{
+  \noindent
+  \begin{tikzpicture}
+    \node[
+      fill=border,
+      text=primary,
+      font=\normalsize\bfseries,
+      inner xsep=2.5mm,
+      inner ysep=1.5mm,
+      text width=\columnwidth-5mm,
+      anchor=north west
+    ] {#1};
+  \end{tikzpicture}
+  \vspace{-4mm}
+}
+
 \newcommand*{\cheatsheetfooter}[2]{
   \small\textit{#1\newline\url{#2}}
 }
@@ -65,7 +101,7 @@
 \usetikzlibrary{calc}
 \fancyhead[C]{
   \begin{tikzpicture}[overlay, remember picture]
-    \fill[innoinnored] (current page.north west) rectangle ($(current page.north east)+(0,-14mm)$);
+    \fill[primary] (current page.north west) rectangle ($(current page.north east)+(0,-14mm)$);
     \node[anchor=north west, text=white, font=\Huge, minimum size=15mm, inner xsep=6mm] at (current page.north west) {\@cheatsheettitle};
   \end{tikzpicture}
 }
@@ -85,15 +121,15 @@
 %------------------------------------------------------------------------------
 \setlength{\columnseprule}{.05mm}
 \setlength{\columnsep}{1cm}
-\def\columnseprulecolor{\color{innoinnofggray}}
+\def\columnseprulecolor{\color{border}}
 
 %------------------------------------------------------------------------------
 % Hyperlink
 %------------------------------------------------------------------------------
 \hypersetup{
   colorlinks=true,
-  linkcolor=innoinnored,
-  urlcolor=innoinnored,
+  linkcolor=primary,
+  urlcolor=primary,
 }
 \urlstyle{same}
 
@@ -105,9 +141,9 @@
   frame=single,
   xleftmargin=2mm,
   xrightmargin=2mm,
-  backgroundcolor=\color{innoinnobggray},
-  rulecolor=\color{innoinnofggray},
-  basicstyle=\small\ttfamily,
+  backgroundcolor=\color{background},
+  rulecolor=\color{border},
+  basicstyle=\footnotesize\ttfamily,
   framesep=2mm,
   aboveskip=5mm,
   belowskip=0mm,
